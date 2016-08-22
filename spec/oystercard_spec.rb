@@ -51,7 +51,7 @@ describe Oystercard do
 
   it 'should throw error if card with insufficient balance touched in' do
     msg = "Insufficient balance to touch in"
-    expect(oystercard.touch_in).to raise_xerror msg
+    expect(oystercard.touch_in).to raise_error msg
   end
 
 end
