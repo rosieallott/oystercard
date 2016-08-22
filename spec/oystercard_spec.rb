@@ -33,8 +33,12 @@ describe Oystercard do
     end
   end
 
+  describe 'journey history' do
   it 'when initialized, is not in journey' do
     expect(oystercard.in_journey?).to be false
+  end
+
+  it {expect(oystercard.journey_history).to be_empty}
   end
 
   describe 'test checking and change of in_journey status' do
