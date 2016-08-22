@@ -9,11 +9,6 @@ describe Oystercard do
   end
 
   describe 'deducting fare' do
-    # it 'should deduct money when customer pays for journey' do
-    #   oystercard.top_up(30)
-    #   oystercard.deduct(20)
-    #   expect(oystercard.instance_variable_get(:@balance)).to eq 10
-    # end
 
     it 'should have a minimum balance to touch_in' do
       minimum_balance = Oystercard::MINIMUM_BALANCE
