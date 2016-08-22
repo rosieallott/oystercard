@@ -29,32 +29,35 @@ describe Oystercard do
     it 'should not allow balance to exceed £90' do
       oystercard.top_up(Oystercard::MAXIMUM_BALANCE)
       msg = "Exceed maximum balance of #{Oystercard::MAXIMUM_BALANCE}"
-      expect{oystercard.top_up(1)}.to raise_error msg
+      expect{oystercard.top_up(rand)}.to raise_error msg
     end
+  end
+
+  it 'when initialized, is not in journey' do
+    expect(oystercard.in_journey?).to be false
   end
 
   describe 'test checking and change of in_journey status' do
     before do
       oystercard.top_up(Oystercard::MAXIMUM_BALANCE)
+      oystercard.touch_in(station)
     end
 
-    it 'when initialized, is not in journey' do
-      expect(oystercard.in_journey?).to be false
-    end
     it 'touching in changes in_journey status to true' do
-      oystercard.touch_in(station)
       expect(oystercard.in_journey?).to be true
     end
     it 'touching out (after having touched in) changes in_journey to false' do
-      oystercard.touch_in(station)
       oystercard.touch_out(rand)
       expect(oystercard.in_journey?).to be false
     end
+    it 'expects card to remember entry station' do
+      expect(oystercard.entry_station).to eq station
+    end
+    it 'expects the card to forget entry station after touch out' do
+      oystercard.touch_out(rand)
+      expect(oystercard.entry_station).to eq nil
+    end
   end
 
-  it 'expects card to remember entry station' do 
-    oystercard.top_up(Oystercard::MAXIMUM_BALANCE)
-    oystercard.touch_in(station)
-    expect(oystercard.entry_station).to eq station
-  end
+
 end

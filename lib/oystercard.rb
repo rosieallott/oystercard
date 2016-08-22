@@ -7,7 +7,6 @@ MINIMUM_BALANCE = 1
   def initialize
     @balance = DEFAULT_BALANCE
     @max = MAXIMUM_BALANCE
-    @in_journey = false
     @min = MINIMUM_BALANCE
     @entry_station = nil
   end
@@ -18,18 +17,18 @@ MINIMUM_BALANCE = 1
   end
 
   def in_journey?
-    @in_journey
+    !@entry_station.nil?
   end
 
   def touch_in(station)
     fail "Minimum balance required" if @balance < @min
-    @in_journey = true
     @entry_station = station
   end
 
   def touch_out(fare)
     deduct(fare)
-    @in_journey = false
+
+    @entry_station = nil
   end
 
 private
