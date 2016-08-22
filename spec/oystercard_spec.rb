@@ -15,10 +15,12 @@ describe Oystercard do
       expect(oystercard.instance_variable_get(:@balance)).to eq 10
     end
 
-    it 'should not allow the balance to fall below 0' do
-      msg = 'Insufficient balance'
-      expect{oystercard.deduct(1)}.to raise_error msg
+    it 'should have a minimum balance' do
+      minimum_balance = Oystercard::MINIMUM_BALANCE
+      oystercard.top_up(minimum_balance-1)
+      expect { oystercard.touch_in}.to raise_error 'Minimum balance required'
     end
+
   end
 
   describe 'topping up' do
@@ -35,6 +37,9 @@ describe Oystercard do
   end
 
   describe 'test checking and change of in_journey status' do
+    before do
+      oystercard.top_up(Oystercard::MAXIMUM_BALANCE)
+    end
     it 'when initialized, is not in journey' do
       expect(oystercard.in_journey?).to be false
     end
@@ -49,9 +54,11 @@ describe Oystercard do
     end
   end
 
-  it 'should throw error if card with insufficient balance touched in' do
-    msg = "Insufficient balance to touch in"
-    expect(oystercard.touch_in).to raise_error msg
-  end
+
+
+  # it 'should throw error if card with insufficient balance touched in' do
+  #   msg = "Insufficient balance to touch in"
+  #   expect(oystercard.touch_in).to raise_error msg
+  # end
 
 end

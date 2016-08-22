@@ -2,11 +2,12 @@ class Oystercard
 
 DEFAULT_BALANCE = 0
 MAXIMUM_BALANCE = 90
-
+MINIMUM_BALANCE = 1
   def initialize
     @balance = DEFAULT_BALANCE
     @max = MAXIMUM_BALANCE
     @in_journey = false
+    @min = MINIMUM_BALANCE
   end
 
   def top_up(amount)
@@ -15,7 +16,7 @@ MAXIMUM_BALANCE = 90
   end
 
   def deduct(fare)
-    fail "Insufficient balance" if @balance - fare < 0
+
     @balance -= fare
   end
 
@@ -24,6 +25,7 @@ MAXIMUM_BALANCE = 90
   end
 
   def touch_in
+    fail "Minimum balance required" if @balance < @min
     @in_journey = true
   end
 
