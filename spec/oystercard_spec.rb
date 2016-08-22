@@ -3,6 +3,7 @@ require 'oystercard'
 describe Oystercard do
 
   subject(:oystercard) { described_class.new }
+  let(:station){ double :station }
 
   it 'tests a freshly initialized card has balance of zero' do
     expect(oystercard.instance_variable_get(:@balance)).to eq 0
@@ -13,7 +14,7 @@ describe Oystercard do
     it 'should have a minimum balance to touch_in' do
       minimum_balance = Oystercard::MINIMUM_BALANCE
       oystercard.top_up(minimum_balance-1)
-      expect { oystercard.touch_in}.to raise_error 'Minimum balance required'
+      expect { oystercard.touch_in(station)}.to raise_error 'Minimum balance required'
     end
 
     it 'should allow touch_out to deduct fare' do
@@ -41,15 +42,19 @@ describe Oystercard do
       expect(oystercard.in_journey?).to be false
     end
     it 'touching in changes in_journey status to true' do
-      oystercard.touch_in
+      oystercard.touch_in(station)
       expect(oystercard.in_journey?).to be true
     end
     it 'touching out (after having touched in) changes in_journey to false' do
-      oystercard.touch_in
+      oystercard.touch_in(station)
       oystercard.touch_out(rand)
       expect(oystercard.in_journey?).to be false
     end
   end
 
-
+  it 'expects card to remember entry station' do
+    oystercard.top_up(Oystercard::MAXIMUM_BALANCE)
+    oystercard.touch_in(station)
+    expect(oystercard.entry_station).to eq station
+  end
 end
