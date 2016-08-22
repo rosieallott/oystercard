@@ -34,7 +34,7 @@ describe Oystercard do
     end
   end
 
-  describe 'status of card i.e. in_journey,touching in & out' do
+  describe 'test checking and change of in_journey status' do
     it 'when initialized, is not in journey' do
       expect(oystercard.in_journey?).to be false
     end
@@ -47,6 +47,11 @@ describe Oystercard do
       oystercard.touch_out
       expect(oystercard.in_journey?).to be false
     end
+  end
+
+  it 'should throw error if card with insufficient balance touched in' do
+    msg = "Insufficient balance to touch in"
+    expect(oystercard.touch_in).to raise_xerror msg
   end
 
 end
