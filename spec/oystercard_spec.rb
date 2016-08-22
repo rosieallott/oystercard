@@ -9,25 +9,26 @@ describe Oystercard do
   end
 
   describe 'deducting fare' do
-    it 'should deduct money when customer pays for journey' do
-      oystercard.top_up(30)
-      oystercard.deduct(20)
-      expect(oystercard.instance_variable_get(:@balance)).to eq 10
-    end
+    # it 'should deduct money when customer pays for journey' do
+    #   oystercard.top_up(30)
+    #   oystercard.deduct(20)
+    #   expect(oystercard.instance_variable_get(:@balance)).to eq 10
+    # end
 
-    it 'should have a minimum balance' do
+    it 'should have a minimum balance to touch_in' do
       minimum_balance = Oystercard::MINIMUM_BALANCE
       oystercard.top_up(minimum_balance-1)
       expect { oystercard.touch_in}.to raise_error 'Minimum balance required'
     end
 
+    it 'should allow touch_out to deduct fare' do
+      oystercard.top_up(10)
+      expect{oystercard.touch_out(1)}.to change{oystercard.instance_variable_get(:@balance)}.by -1
+    end
+
   end
 
   describe 'topping up' do
-    it 'can top up card by top_up method with argument' do
-      oystercard.top_up(30)
-      expect(oystercard.instance_variable_get(:@balance)).to eq 30
-    end
 
     it 'should not allow balance to exceed £90' do
       oystercard.top_up(Oystercard::MAXIMUM_BALANCE)
@@ -40,6 +41,7 @@ describe Oystercard do
     before do
       oystercard.top_up(Oystercard::MAXIMUM_BALANCE)
     end
+
     it 'when initialized, is not in journey' do
       expect(oystercard.in_journey?).to be false
     end
@@ -49,16 +51,10 @@ describe Oystercard do
     end
     it 'touching out (after having touched in) changes in_journey to false' do
       oystercard.touch_in
-      oystercard.touch_out
+      oystercard.touch_out(rand)
       expect(oystercard.in_journey?).to be false
     end
   end
 
-
-
-  # it 'should throw error if card with insufficient balance touched in' do
-  #   msg = "Insufficient balance to touch in"
-  #   expect(oystercard.touch_in).to raise_error msg
-  # end
 
 end
