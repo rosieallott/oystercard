@@ -52,7 +52,7 @@ describe Oystercard do
     end
   end
 
-  it 'expects card to remember entry station' do
+  it 'expects card to remember entry station' do 
     oystercard.top_up(Oystercard::MAXIMUM_BALANCE)
     oystercard.touch_in(station)
     expect(oystercard.entry_station).to eq station
