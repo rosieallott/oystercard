@@ -14,6 +14,11 @@ MAXIMUM_BALANCE = 90
     @balance += amount
   end
 
+  def deduct(fare)
+    fail "Insufficient balance" if @balance - fare < 0
+    @balance -= fare
+  end
+
 private
 
 attr_reader :balance
