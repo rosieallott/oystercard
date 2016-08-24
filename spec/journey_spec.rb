@@ -22,14 +22,10 @@ subject(:journey) {described_class.new(entry_station)}
       expect(journey.complete?).to eq true
     end
 
-    it 'add hash to journeys array and had entry station key to hash when touching in' do
-      expect(journey.details).to eq({entry_station => nil})
-    end
-
 
     it 'exit station to hash when touching out' do
       journey.finish(exit_station)
-      expect(journey.details).to eq({entry_station => exit_station})
+      expect(journey.details).to eq({entry: entry_station, exit: exit_station})
     end
   end
 

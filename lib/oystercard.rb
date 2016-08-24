@@ -2,7 +2,7 @@ require_relative 'journey'
 
 class Oystercard
 
-attr_reader :current_journey, :journeys
+attr_reader :current_journey, :journeys, :balance
 
 LIMIT = 90
 BALANCE = 0
@@ -25,7 +25,6 @@ MINIMUM_BALANCE = 1
   end
 
   def touch_out(amount, station)
-    if current_journey.nil? BLAH BLAH
     current_journey.finish(station)
     @journeys << current_journey.details
     deduct(amount)
@@ -41,11 +40,11 @@ MINIMUM_BALANCE = 1
   end
 
   def full?(amount)
-    @balance + amount > LIMIT
+    balance + amount > LIMIT
   end
 
   def empty?
-    @balance < MINIMUM_BALANCE
+    balance < MINIMUM_BALANCE
   end
 
 end
