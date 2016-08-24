@@ -5,6 +5,7 @@ describe Oystercard do
     let(:amount) { double :amount }
     let(:station) { double :station }
     let(:station2) { double :station2 }
+    let(:journey) { double :journey}
 
   describe 'Initializing a card' do
 
@@ -42,13 +43,13 @@ describe Oystercard do
 
   context 'when travelling' do
 
-    describe 'Checking impact touch in and out' do
+    describe 'Checking impact on Journey (complete?) touch in and out' do
       before do
         oystercard.top_up(10)
         oystercard.touch_in(station)
       end
       it 'In journey when touch in' do
-        expect(oystercard.in_journey?).to eq true
+        expect(oystercard.journey.complete?).to eq true
       end
 
       it 'Not in journey anymore when touch out' do
