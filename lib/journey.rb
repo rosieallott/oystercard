@@ -1,11 +1,11 @@
 class Journey
 
-  attr_reader :log
+  attr_reader :details
 
   def initialize(entry_station)
     @complete = false
     @entry_station = entry_station
-    @log = {entry_station => nil}
+    @details = {entry_station => nil}
   end
 
   def complete?
@@ -14,7 +14,7 @@ class Journey
 
   def finish(exit_station)
     @complete = true
-    @log[@entry_station] = exit_station
+    @details[@entry_station] = exit_station
   end
 
 end

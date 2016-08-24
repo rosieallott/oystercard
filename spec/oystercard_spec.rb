@@ -5,7 +5,7 @@ describe Oystercard do
     let(:amount) { double :amount }
     let(:station) { double :station }
     let(:station2) { double :station2 }
-    let(:journey) { double :journey, finish: nil, log: nil}
+    let(:journey) { double :journey, finish: nil, details: nil}
     let(:journey_class) {double :journey_class, new: journey}
 
   describe 'Initializing a card' do
@@ -17,7 +17,6 @@ describe Oystercard do
     it 'creates empty array of all journeys' do
       expect(oystercard.instance_variable_get(:@journeys)).to eq []
     end
-
   end
 
   describe '#top_up' do
@@ -31,14 +30,13 @@ describe Oystercard do
     end
   end
 
-
     context 'when over limit' do
-    it 'raises an error when more than £90 is added' do
-      LIMIT = Oystercard::LIMIT
-      oystercard.top_up(LIMIT)
-      expect{ oystercard.top_up 5 }.to raise_error "Limit £#{LIMIT} exceeded"
+      it 'raises an error when more than £90 is added' do
+        LIMIT = Oystercard::LIMIT
+        oystercard.top_up(LIMIT)
+        expect{ oystercard.top_up 5 }.to raise_error "Limit £#{LIMIT} exceeded"
+      end
     end
-  end
   end
 
   context 'when travelling' do
@@ -53,18 +51,17 @@ describe Oystercard do
       end
 
       it 'Not in journey anymore when touch out' do
-        oystercard.touch_out(2, station)
-        expect(oystercard).not_to be_in_journey
-      end
-
-      it 'expects touch out to take exit station as a second argument' do
-        oystercard.touch_out(2, station)
-        expect(oystercard.instance_variable_get(:@exit_station)).to eq station
+        oystercard.touch_out(2, station2)
+        expect(oystercard.current_journey).to eq nil
       end
 
       it 'check a charge is made when touch out' do
         expect {oystercard.touch_out(2, station)}.to change{oystercard.instance_variable_get(:@balance)}.by(-2)
       end
+      # it 'adds the completed journey details to the journeys array' do
+      #   oystercard.touch_out(2, station2)
+      #   expect(oystercard.instance_variable_get(:@journeys)).to include({station => station2})
+      # end
     end
   end
 
@@ -73,25 +70,5 @@ describe Oystercard do
       expect { oystercard.touch_in(station) }.to raise_error 'below minimum balance'
     end
   end
-  describe 'add station to card when touching in' do
-    before do
-      oystercard.top_up(20)
-      oystercard.touch_in(station)
-    end
-
-    it 'forgets station argument once touched out' do
-      oystercard.touch_out(2, station)
-      expect(oystercard.instance_variable_get(:@entry_station)).to be_nil
-    end
-  end
-
-  describe 'mapping journeys' do
-    before do
-      oystercard.top_up(20)
-      oystercard.touch_in(station)
-    end
-
-  end
-
 
 end
