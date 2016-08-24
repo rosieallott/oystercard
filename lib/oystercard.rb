@@ -25,6 +25,7 @@ MINIMUM_BALANCE = 1
   end
 
   def touch_out(amount, station)
+    if current_journey.nil? BLAH BLAH
     current_journey.finish(station)
     @journeys << current_journey.details
     deduct(amount)
