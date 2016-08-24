@@ -5,7 +5,7 @@ describe Oystercard do
     let(:amount) { double :amount }
     let(:station) { double :station }
     let(:station2) { double :station2 }
-    let(:journey) { double :journey}
+    let(:journey) { double :journey, finish: nil, log: nil}
     let(:journey_class) {double :journey_class, new: journey}
 
   describe 'Initializing a card' do
