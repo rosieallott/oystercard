@@ -13,9 +13,7 @@ describe Oystercard do
     it 'card has a balance of zero' do
       expect(oystercard.instance_variable_get(:@balance)).to eq Oystercard::BALANCE
     end
-    it 'is #in_journey' do
-      expect(oystercard.in_journey?).to be false
-    end
+
     it 'creates empty array of all journeys' do
       expect(oystercard.instance_variable_get(:@journeys)).to eq []
     end
@@ -80,9 +78,7 @@ describe Oystercard do
       oystercard.top_up(20)
       oystercard.touch_in(station)
     end
-    it 'stores station argument in @entry_station' do
-      expect(oystercard.instance_variable_get(:@entry_station)).to eq station
-    end
+
     it 'forgets station argument once touched out' do
       oystercard.touch_out(2, station)
       expect(oystercard.instance_variable_get(:@entry_station)).to be_nil
@@ -94,13 +90,7 @@ describe Oystercard do
       oystercard.top_up(20)
       oystercard.touch_in(station)
     end
-    it 'add hash to journeys array and had entry station key to hash when touching in' do
-      expect(oystercard.journeys).to end_with({station => nil})
-    end
-    it 'exit station to hash when touching out' do
-      oystercard.touch_out(2,station2)
-      expect(oystercard.journeys).to end_with({station => station2})
-    end
+
   end
 
 
