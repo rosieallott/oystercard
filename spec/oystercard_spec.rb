@@ -6,7 +6,7 @@ describe Oystercard do
     let(:station) { double :station }
     let(:station2) { double :station2 }
     let(:journey) { double :journey}
-    let(:journey_class) {double :journey_class, new: journey}
+    let(:journey_class) {double :journey_class, :new(station) => journey}
 
   describe 'Initializing a card' do
 
@@ -33,6 +33,7 @@ describe Oystercard do
     end
   end
 
+
     context 'when over limit' do
     it 'raises an error when more than £90 is added' do
       LIMIT = Oystercard::LIMIT
@@ -50,7 +51,7 @@ describe Oystercard do
         oystercard.touch_in(station)
       end
       it 'Inject a journey when touching in' do
-        expect(oystercard.instance_variable_get(:@current_journey)).to eq journey
+        expect(oystercard.instance_variable_get(:@current_journey)).to eq journey(station)
       end
 
       it 'Not in journey anymore when touch out' do

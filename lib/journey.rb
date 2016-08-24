@@ -1,7 +1,8 @@
 class Journey
 
-  def initialize
+  def initialize(entry_station)
     @complete = false
+    @entry_station = entry_station
   end
 
   def complete?

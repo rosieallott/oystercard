@@ -1,3 +1,5 @@
+require_relative 'journey'
+
 class Oystercard
 
 attr_accessor :journeys
@@ -25,7 +27,7 @@ MINIMUM_BALANCE = 1
 
   def touch_in(station)
     fail 'below minimum balance' if empty?
-    @current_journey = @journey_class.new
+    @current_journey = @journey_class.new(station)
     @entry_station = station
     @journeys << {@entry_station => nil}
   end
