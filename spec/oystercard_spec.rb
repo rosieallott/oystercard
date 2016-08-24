@@ -1,11 +1,12 @@
 require 'oystercard'
 
 describe Oystercard do
-    subject(:oystercard) {described_class.new}
+    subject(:oystercard) {described_class.new(journey_class)}
     let(:amount) { double :amount }
     let(:station) { double :station }
     let(:station2) { double :station2 }
     let(:journey) { double :journey}
+    let(:journey_class) {double :journey_class, new: journey}
 
   describe 'Initializing a card' do
 
@@ -48,8 +49,8 @@ describe Oystercard do
         oystercard.top_up(10)
         oystercard.touch_in(station)
       end
-      it 'In journey when touch in' do
-        expect(oystercard.journey.complete?).to eq true
+      it 'Inject a journey when touching in' do
+        expect(oystercard.instance_variable_get(:@current_journey)).to eq journey
       end
 
       it 'Not in journey anymore when touch out' do
