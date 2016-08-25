@@ -5,7 +5,7 @@ class JourneyLog
   end
 
   def start(entry_station)
-    @current_journey = journey_class.new
+    @current_journey = @journey_class.new
   end
 
 
