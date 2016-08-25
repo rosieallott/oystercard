@@ -5,8 +5,9 @@ describe Oystercard do
     let(:amount) { double :amount }
     let(:station) { double :station }
     let(:station2) { double :station2 }
-    let(:journey) { double :journey, finish: nil, details: nil}
+    let(:journey) { double :journey, finish: nil, details: nil, fare: 1}
     let(:journey_class) {double :journey_class, new: journey}
+
 
   describe 'Initializing a card' do
 
@@ -51,23 +52,27 @@ describe Oystercard do
       end
 
       it 'Not in journey anymore when touch out' do
-        oystercard.touch_out(2, station2)
+        oystercard.touch_out(station2)
         expect(oystercard.current_journey).to eq nil
       end
 
       it 'check a charge is made when touch out' do
-        expect {oystercard.touch_out(2, station)}.to change{oystercard.instance_variable_get(:@balance)}.by(-2)
+        expect {oystercard.touch_out(station2)}.to change{oystercard.instance_variable_get(:@balance)}.by(-1)
       end
-      # it 'adds the completed journey details to the journeys array' do
-      #   oystercard.touch_out(2, station2)
-      #   expect(oystercard.instance_variable_get(:@journeys)).to include({station => station2})
-      # end
     end
   end
 
   describe 'error messages' do
     it 'raises an error when balance is less than minimum balance' do
       expect { oystercard.touch_in(station) }.to raise_error 'below minimum balance'
+    end
+  end
+
+  describe "touch_out" do
+    it "makes a journey if not touched in" do
+      oystercard.top_up(50)
+      oystercard.touch_out("bank")
+      expect(@journeys).to_not be_empty
     end
   end
 

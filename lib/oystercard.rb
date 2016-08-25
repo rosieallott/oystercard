@@ -21,19 +21,26 @@ MINIMUM_BALANCE = 1
 
   def touch_in(station)
     fail 'below minimum balance' if empty?
-    @current_journey = @journey_class.new(station)
+    inject
   end
 
-  def touch_out(amount, station)
+  def touch_out(station)
+    inject
     current_journey.finish(station)
     @journeys << current_journey.details
-    deduct(amount)
+    deduct(@current_journey.fare)
     @current_journey = nil
   end
 
   private
 
   attr_reader :balance, :entry_station
+
+  def inject
+    if @current_journey == nil
+      @current_journey = @journey_class.new(station)
+    end
+  end
 
   def deduct(amount)
     @balance -= amount
