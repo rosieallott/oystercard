@@ -21,7 +21,7 @@ MINIMUM_BALANCE = 1
 
   def touch_in(station)
     fail 'below minimum balance' if empty?
-    @current_journey = @journey_class.new
+    @current_journey = @journey_class.new(station)
   end
 
   def touch_out(station)
