@@ -41,6 +41,7 @@ subject(:journey_nil) { described_class.new }
     it 'charges penalty fare without a given entry station' do
       expect(journey_nil.fare).to eq described_class::PENALTY_FARE
     end
+
   end
 
 end
