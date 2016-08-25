@@ -72,7 +72,7 @@ describe Oystercard do
     it "makes a journey if not touched in" do
       oystercard.top_up(50)
       oystercard.touch_out("bank")
-      expect(@journeys).to_not be_empty
+      expect(oystercard.instance_variable_get(:@journeys)).to_not be_empty
     end
   end
 
