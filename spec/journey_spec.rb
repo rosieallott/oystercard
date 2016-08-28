@@ -12,7 +12,7 @@ subject(:journey_nil) { described_class.new }
       expect(journey.finished?).to eq false
     end
     it 'takes entry station as argument' do
-      expect(journey.instance_variable_get(:@entry_station)).to eq entry_station
+      expect(journey.entry_station).to eq entry_station
     end
   end
 
@@ -20,11 +20,6 @@ subject(:journey_nil) { described_class.new }
     it 'expects complete is true once finish a journey' do
       journey.finish(exit_station)
       expect(journey.finished?).to eq true
-    end
-
-    it 'exit station to hash when touching out' do
-      journey.finish(exit_station)
-      expect(journey.details).to eq({entry: entry_station, exit: exit_station})
     end
   end
 

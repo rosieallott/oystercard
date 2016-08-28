@@ -2,27 +2,26 @@ class Journey
 
   MINIMUM_FARE = 1
   PENALTY_FARE = 6
-  attr_reader :details, :entry_station, :exit_station
+  attr_reader :entry_station, :exit_station
 
   def initialize(entry_station = nil)
     @finished = false
     @entry_station = entry_station
     @exit_station = nil
-    @details = nil
   end
 
   def finished?
     @finished
   end
 
-  def finish(exit_station)
+  def finish(exit_station = nil)
     @exit_station = exit_station
     @finished = true
-    record
+    self
   end
 
   def fare
-    if exit_station.nil? || entry_station.nil?
+    if penalty?
       PENALTY_FARE
     else
       MINIMUM_FARE
@@ -31,8 +30,8 @@ class Journey
 
   private
 
-  def record
-    @details = {entry: entry_station, exit: exit_station}
+  def penalty?
+    exit_station.nil? || entry_station.nil?
   end
 
 end
